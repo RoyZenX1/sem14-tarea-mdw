@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+    <!-- Barra superior reutilizable: usuario, rol y botón Salir (solo se muestra autenticado) -->
+    <nav th:fragment="navbar" class="navbar navbar-dark bg-dark px-3" sec:authorize="isAuthenticated()">
+        <a class="navbar-brand" th:href="@{/celulares/lista}">📱 App SmartPhones</a>
+        <div class="d-flex align-items-center gap-3 text-white">
+            <span>
+                👤 <strong sec:authentication="name"></strong>
+                <span sec:authorize="hasRole('ADMIN')" class="badge bg-danger">ADMIN</span>
+                <span sec:authorize="hasRole('USER')" class="badge bg-info text-dark">USER</span>
+            </span>
+            <!-- Logout por POST: Spring Security exige el token CSRF (th:action lo agrega solo) -->
+            <form th:action="@{/logout}" method="post" class="m-0">
+                <button type="submit" class="btn btn-outline-light btn-sm">Salir</button>
+            </form>
+        </div>
+    </nav>
+</body>
+</html>
